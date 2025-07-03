@@ -363,3 +363,10 @@ MigrationBackup/
 FodyWeavers.xsd
 
 **/Migrations/
+
+# Additional NuGet cache and build artifacts
+project.assets.json
+*.nuget.cache
+*.nuget.dgspec.json
+*.nuget.g.props
+*.nuget.g.targets
