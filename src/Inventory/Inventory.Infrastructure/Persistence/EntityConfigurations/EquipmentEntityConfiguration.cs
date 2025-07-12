@@ -21,8 +21,9 @@ public class EquipmentEntityConfiguration : IEntityTypeConfiguration<Equipment>
             price.Property(p => p.Currency).IsRequired().HasMaxLength(10);
         });
         builder.Property(e => e.IsAvailable).IsRequired();
-        builder.Metadata.FindNavigation(nameof(Equipment.Images))
-            ?.SetPropertyAccessMode(PropertyAccessMode.Field);
-        builder.HasMany(typeof(EquipmentImage), "_images").WithOne().OnDelete(DeleteBehavior.Cascade);
+        builder.HasMany(e => e.Images)
+            .WithOne()
+            .HasForeignKey("EquipmentId")
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

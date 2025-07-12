@@ -1,4 +1,5 @@
 using Inventory.Domain;
+using Inventory.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,7 +13,7 @@ public static class InventoryModule
     {
         services
         // .AddInventoryApplication(configuration)
-        // .AddInventoryInfrastructure(configuration)
+        .AddInventoryInfrastructure(configuration)
         .AddInventoryDomain();
     }
 }

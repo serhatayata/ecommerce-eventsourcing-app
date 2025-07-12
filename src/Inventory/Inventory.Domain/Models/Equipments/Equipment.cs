@@ -29,8 +29,9 @@ public class Equipment : Entity<Guid>, IAggregateRoot
     {
         var details = new EquipmentDetails(name, description);
         var money = Money.Create(price, currency);
-
-        return new Equipment(ownerUserId, details, money);
+        var equipment = new Equipment(ownerUserId, details, money);
+        equipment.RaiseEquipmentCreatedDomainEvent();
+        return equipment;
     }
 
     public void AddImage(string url)
@@ -38,7 +39,7 @@ public class Equipment : Entity<Guid>, IAggregateRoot
         _images.Add(new EquipmentImage(url));
     }
 
-    public void RaiseEquipmentCreatedDomainEvent()
+    private void RaiseEquipmentCreatedDomainEvent()
         => AddEvent(new EquipmentCreatedDomainEvent(
             OwnerUserId,
             Details.Name,
