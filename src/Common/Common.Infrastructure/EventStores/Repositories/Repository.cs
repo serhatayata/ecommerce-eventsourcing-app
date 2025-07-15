@@ -1,5 +1,7 @@
-using Common.Domain.Events;
-using Common.Domain.Repositories;
+using Common.Domain.Core.Events;
+using Common.Domain.EventStores;
+using Common.Domain.EventStores.Aggregates;
+using Common.Domain.EventStores.Repositories;
 
 namespace Common.Infrastructure.EventStores.Repositories;
 
