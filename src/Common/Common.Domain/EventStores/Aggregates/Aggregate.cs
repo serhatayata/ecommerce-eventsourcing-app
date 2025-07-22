@@ -2,9 +2,9 @@ using Common.Domain.Core.Events;
 
 namespace Common.Domain.EventStores.Aggregates;
 
-public abstract class Aggregate : IAggregate
+public abstract class Aggregate<T> : IAggregate<T>
 {
-    public Guid Id { get; protected set; }
+    public T Id { get; protected set; }
     public int Version { get; protected set; } = 0;
     public DateTime CreatedUtc { get; protected set; }
     public virtual string Name => "";
@@ -15,7 +15,7 @@ public abstract class Aggregate : IAggregate
     protected Aggregate()
     { }
 
-    IEnumerable<IEvent> IAggregate.DequeueUncommittedEvents()
+    IEnumerable<IEvent> IAggregate<T>.DequeueUncommittedEvents()
     {
         var dequeuedEvents = uncommittedEvents.ToList();
 

@@ -1,15 +1,14 @@
 using System.Text.Json.Serialization;
-using Common.Domain.Events;
-using MediatR;
+using Common.Domain.Core.Events;
 
 namespace Inventory.Domain.Events;
 
-public sealed record EquipmentCreatedDomainEvent : DomainEvent, INotification
+public sealed record EquipmentCreatedEvent : Event
 {
     [JsonConstructor]
-    public EquipmentCreatedDomainEvent() { }
+    public EquipmentCreatedEvent() { }
 
-    public EquipmentCreatedDomainEvent(
+    public EquipmentCreatedEvent(
     Guid ownerUserId,
     string name,
     decimal pricePerDay)

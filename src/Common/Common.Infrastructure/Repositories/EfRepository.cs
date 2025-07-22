@@ -1,13 +1,12 @@
 using System.Linq.Expressions;
-using Common.Domain.Aggregates;
-using Common.Domain.Entities;
+using Common.Domain.EventStores.Aggregates;
 using Common.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Common.Infrastructure.Repositories;
 
-public abstract class EfRepository<T, TDbContext, R> : IRepository<T, R>
-where T : Entity<R>, IAggregateRoot
+public abstract class EfRepository<T, TDbContext, R> : IEfRepository<T, R>
+where T : Aggregate<R>
 where TDbContext : DbContext
 {
     private readonly TDbContext _dbContext;

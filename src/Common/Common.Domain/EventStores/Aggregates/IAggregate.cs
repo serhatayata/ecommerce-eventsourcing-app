@@ -2,12 +2,15 @@ using Common.Domain.Core.Events;
 
 namespace Common.Domain.EventStores.Aggregates;
 
-public interface IAggregate
+public interface IAggregate<T>
 {
-    Guid Id { get; }
+    T Id { get; }
     int Version { get; }
     DateTime CreatedUtc { get; }
 
     IEnumerable<IEvent> DequeueUncommittedEvents();
+}
 
+public interface IAggregate : IAggregate<Guid>
+{
 }

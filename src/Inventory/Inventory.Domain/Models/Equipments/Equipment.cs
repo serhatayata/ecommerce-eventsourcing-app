@@ -1,18 +1,17 @@
-using Common.Domain.Aggregates;
 using Common.Domain.Entities;
+using Common.Domain.EventStores.Aggregates;
 using Common.Domain.ValueObjects;
-using Inventory.Domain.Events;
 
 namespace Inventory.Domain.Models.Equipments;
 
-public class Equipment : Entity<Guid>, IAggregateRoot
+public class Equipment : Aggregate<Guid>
 {
     public Guid OwnerUserId { get; private set; }
     public EquipmentDetails Details { get; private set; }
     public Money PricePerDay { get; private set; }
     public bool IsAvailable { get; private set; }
 
-        private readonly List<EquipmentImage> _images = new();
+    private readonly List<EquipmentImage> _images = new();
     public IReadOnlyCollection<EquipmentImage> Images => _images;
 
     private Equipment() { } // ORM için
@@ -30,7 +29,6 @@ public class Equipment : Entity<Guid>, IAggregateRoot
         var details = new EquipmentDetails(name, description);
         var money = Money.Create(price, currency);
         var equipment = new Equipment(ownerUserId, details, money);
-        equipment.RaiseEquipmentCreatedDomainEvent();
         return equipment;
     }
 
@@ -38,13 +36,6 @@ public class Equipment : Entity<Guid>, IAggregateRoot
     {
         _images.Add(new EquipmentImage(url));
     }
-
-    private void RaiseEquipmentCreatedDomainEvent()
-        => AddEvent(new EquipmentCreatedDomainEvent(
-            OwnerUserId,
-            Details.Name,
-            PricePerDay.Amount
-        ));
 
     public void MarkAsUnavailable() => IsAvailable = false;
     public void MarkAsAvailable() => IsAvailable = true;
