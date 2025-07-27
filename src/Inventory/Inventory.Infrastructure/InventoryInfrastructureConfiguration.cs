@@ -1,5 +1,5 @@
 using System.Reflection;
-using Common.Domain.Repositories;
+using Common.Domain.EventStores.Repositories;
 using Common.Infrastructure.Persistence;
 using Inventory.Domain.Contracts;
 using Inventory.Infrastructure.Persistence;
