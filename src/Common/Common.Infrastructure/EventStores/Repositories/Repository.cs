@@ -5,7 +5,9 @@ using Common.Domain.EventStores.Repositories;
 
 namespace Common.Infrastructure.EventStores.Repositories;
 
-public class Repository<TAggregate> : IRepository<TAggregate> where TAggregate : IAggregate
+public class Repository<TAggregate> : 
+IRepository<TAggregate> 
+where TAggregate : IAggregate
 {
     private readonly IEventStore _eventStore;
     private readonly IEventBus _eventBus;

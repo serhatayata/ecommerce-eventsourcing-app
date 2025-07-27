@@ -1,3 +1,4 @@
+using Inventory.Application;
 using Inventory.Domain;
 using Inventory.Infrastructure;
 using Microsoft.Extensions.Configuration;
@@ -12,7 +13,7 @@ public static class InventoryModule
     IConfiguration configuration)
     {
         services
-        // .AddInventoryApplication(configuration)
+        .AddInventoryApplication(configuration)
         .AddInventoryInfrastructure(configuration)
         .AddInventoryDomain();
     }

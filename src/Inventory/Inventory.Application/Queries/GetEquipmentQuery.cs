@@ -20,7 +20,7 @@ public class GetEquipmentQuery : IQuery<EquipmentResponse>
         GetEquipmentQuery request,
         CancellationToken cancellationToken)
         {
-            var equipment = await _equipmentRepository.Find(request.Id);
+            var equipment = await _equipmentRepository.GetByIdAsync(request.Id);
     
             if (equipment == null)
                 return null;

@@ -6,7 +6,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build-inventory-api",
-            "program": "${workspaceFolder}/src/Inventory/Inventory.Api/bin/Debug/net8.0/Inventory.Api.dll",
+            "program": "${workspaceFolder}/src/Inventory/Inventory.Api/bin/Debug/net9.0/Inventory.Api.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/Inventory/Inventory.Api",
             "console": "internalConsole",
@@ -21,11 +21,6 @@
             "sourceFileMap": {
                 "/Views": "${workspaceFolder}/Views"
             }
-        },
-        {
-            "name": "Attach to Inventory.Api",
-            "type": "coreclr",
-            "request": "attach"
         }
     ]
 }

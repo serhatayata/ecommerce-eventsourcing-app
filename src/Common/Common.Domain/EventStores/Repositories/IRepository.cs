@@ -2,10 +2,10 @@ using Common.Domain.EventStores.Aggregates;
 
 namespace Common.Domain.EventStores.Repositories;
 
-public interface IRepository<TAggregate, R> where TAggregate : IAggregate<R>
+public interface IRepository<TAggregate> where TAggregate : IAggregate<Guid>
 {
-    Task<TAggregate> Find(R id);
-    Task<ICollection<TAggregate>> Find(ICollection<R> id);
+    Task<TAggregate> Find(Guid id);
+    Task<ICollection<TAggregate>> Find(ICollection<Guid> id);
     Task Add(TAggregate aggregate);
     Task Add(ICollection<TAggregate> aggregates);
     Task Update(TAggregate aggregate);

@@ -1,9 +1,10 @@
-using Common.Domain.Events;
+
+using Common.Domain.Core.Events;
 
 namespace Common.Domain.Entities;
 
 public interface IEntity
 {
-    IReadOnlyCollection<IDomainEvent> Events { get; }
+    IReadOnlyCollection<IEvent> Events { get; }
     void ClearEvents();
 }

@@ -1,21 +1,21 @@
-using Common.Domain.Events;
+using Common.Domain.Core.Events;
 
 namespace Common.Domain.Entities;
 
 public abstract class Entity<TId> : IEntity
 {
-    private readonly ICollection<IDomainEvent> events;
+    private readonly ICollection<IEvent> events;
 
-    protected Entity() => events = new List<IDomainEvent>();
+    protected Entity() => events = new List<IEvent>();
 
     public TId Id { get; protected set; } = default!;
 
-    public IReadOnlyCollection<IDomainEvent> Events
+    public IReadOnlyCollection<IEvent> Events
         => events.ToList().AsReadOnly();
 
     public void ClearEvents() => events.Clear();
 
-    protected void AddEvent(IDomainEvent domainEvent)
+    protected void AddEvent(IEvent domainEvent)
         => events.Add(domainEvent);
 
     public override bool Equals(object? obj)

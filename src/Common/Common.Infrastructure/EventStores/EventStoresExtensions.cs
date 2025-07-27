@@ -16,7 +16,11 @@ namespace Common.Infrastructure.EventStores;
 
 public static class EventStoresExtensions
 {
-    public static IServiceCollection AddEventStore<TAggregate>(this IServiceCollection services, IConfiguration Configuration, Action<DbContextOptionsBuilder> dbContextOptions = null) where TAggregate : IAggregate
+    public static IServiceCollection AddEventStore<TAggregate>(
+    this IServiceCollection services,
+    IConfiguration Configuration,
+    Action<DbContextOptionsBuilder> dbContextOptions = null)
+    where TAggregate : IAggregate
     {
         var options = new EventStoresOptions();
         Configuration.GetSection(nameof(EventStoresOptions)).Bind(options);

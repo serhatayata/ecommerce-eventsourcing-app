@@ -36,7 +36,7 @@ public class CreateEquipmentCommand : ICommand<CreateEquipmentResponse>
             foreach (var image in command.Images)
                 equipment.AddImage(image);
 
-            await _equipmentRepository.Add(equipment);
+            await _equipmentRepository.SaveAsync(equipment);
             return new CreateEquipmentResponse()
             {
                 OwnerUserId = command.OwnerUserId,

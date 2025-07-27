@@ -1,6 +1,9 @@
 using System.Reflection;
 using Common.Domain.EventStores.Repositories;
+using Common.Infrastructure.EventStores;
+using Common.Infrastructure.MessageBrokers;
 using Common.Infrastructure.Persistence;
+using Common.Infrastructure.ServiceDiscovery.Consul;
 using Inventory.Domain.Contracts;
 using Inventory.Infrastructure.Persistence;
 using Inventory.Infrastructure.Repositories;
@@ -19,6 +22,9 @@ public static class InventoryInfrastructureConfiguration
         services
             .AddDatabase(configuration)
             .AddRepositories()
+            .AddServiceDiscovery(configuration)
+            .AddMessageBroker(configuration)
+            .AddEventStore(configuration, options => options.UseSqlServer(Configuration.GetConnectionString("EventStoreConnection")))
             .AddTransient<IDbInitializer, InventoryDbInitializer>()
             .AddTransient<IEquipmentRepository, EquipmentRepository>();
 
@@ -53,9 +59,18 @@ public static class InventoryInfrastructureConfiguration
             .Scan(scan => scan
                 .FromAssemblies(Assembly.GetExecutingAssembly())
                 .AddClasses(classes => classes
-                    .AssignableTo(typeof(IRepository<,>)))
+                    .AssignableTo(typeof(IRepository<>)))
                 .AsImplementedInterfaces()
                 .WithTransientLifetime());
+
+        return services;
+    }
+
+    private static IServiceCollection AddServiceDiscovery(
+    this IServiceCollection services,
+    IConfiguration configuration)
+    {
+        services.AddConsul(configuration);
 
         return services;
     }
