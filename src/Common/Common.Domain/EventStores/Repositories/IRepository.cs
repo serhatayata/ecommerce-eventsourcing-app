@@ -2,7 +2,8 @@ using Common.Domain.EventStores.Aggregates;
 
 namespace Common.Domain.EventStores.Repositories;
 
-public interface IRepository<TAggregate> where TAggregate : IAggregate<Guid>
+public interface IRepository<TAggregate> 
+where TAggregate : IAggregate<Guid>
 {
     Task<TAggregate> Find(Guid id);
     Task<ICollection<TAggregate>> Find(ICollection<Guid> id);

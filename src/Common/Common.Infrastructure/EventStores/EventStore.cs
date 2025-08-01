@@ -36,7 +36,8 @@ public class EventStore : IEventStore
         _snapshots.Add(snapshot);
     }
 
-    public virtual async Task<TAggregate> AggregateStream<TAggregate>(Guid aggregateId, int? version = null, DateTime? createdUtc = null) where TAggregate : IAggregate
+    public virtual async Task<TAggregate> AggregateStream<TAggregate>(Guid aggregateId, int? version = null, DateTime? createdUtc = null)
+    where TAggregate : IAggregate<Guid>
     {
         var aggregate = (TAggregate)Activator.CreateInstance(typeof(TAggregate), true);
 
@@ -53,7 +54,8 @@ public class EventStore : IEventStore
         return aggregate;
     }
 
-    public virtual async Task<ICollection<TAggregate>> AggregateStream<TAggregate>(ICollection<Guid> ids) where TAggregate : IAggregate
+    public virtual async Task<ICollection<TAggregate>> AggregateStream<TAggregate>(ICollection<Guid> ids)
+    where TAggregate : IAggregate<Guid>
     {
         var aggregates = new List<TAggregate>();
         foreach (var id in ids)
@@ -66,7 +68,7 @@ public class EventStore : IEventStore
     }
 
     public virtual async Task AppendEvent<TAggregate>(Guid aggregateId, IEvent @event, int? expectedVersion = null, Func<StreamState, Task> action = null)
-        where TAggregate : IAggregate
+    where TAggregate : IAggregate<Guid>
     {
         var version = 1;
 
@@ -108,7 +110,8 @@ public class EventStore : IEventStore
         return result;
     }
 
-    public virtual async Task Store<TAggregate>(TAggregate aggregate, Func<StreamState, Task> action = null) where TAggregate : IAggregate
+    public virtual async Task Store<TAggregate>(TAggregate aggregate, Func<StreamState, Task> action = null)
+    where TAggregate : IAggregate<Guid>
     {
         var events = aggregate.DequeueUncommittedEvents();
         var initialVersion = aggregate.Version - events.Count();
@@ -131,7 +134,8 @@ public class EventStore : IEventStore
             .Handle(aggregate);
     }
 
-    public virtual async Task Store<TAggregate>(ICollection<TAggregate> aggregates, Func<StreamState, Task> action = null) where TAggregate : IAggregate
+    public virtual async Task Store<TAggregate>(ICollection<TAggregate> aggregates, Func<StreamState, Task> action = null)
+    where TAggregate : IAggregate<Guid>
     {
         foreach (var aggregate in aggregates)
         {

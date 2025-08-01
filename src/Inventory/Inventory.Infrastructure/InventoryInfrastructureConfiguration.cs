@@ -5,6 +5,7 @@ using Common.Infrastructure.MessageBrokers;
 using Common.Infrastructure.Persistence;
 using Common.Infrastructure.ServiceDiscovery.Consul;
 using Inventory.Domain.Contracts;
+using Inventory.Domain.Models.Equipments;
 using Inventory.Infrastructure.Persistence;
 using Inventory.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -24,7 +25,7 @@ public static class InventoryInfrastructureConfiguration
             .AddRepositories()
             .AddServiceDiscovery(configuration)
             .AddMessageBroker(configuration)
-            .AddEventStore(configuration, options => options.UseSqlServer(Configuration.GetConnectionString("EventStoreConnection")))
+            .AddEventStore<Equipment>(configuration, options => options.UseSqlServer(configuration.GetConnectionString("EventStoreConnection")))
             .AddTransient<IDbInitializer, InventoryDbInitializer>()
             .AddTransient<IEquipmentRepository, EquipmentRepository>();
 

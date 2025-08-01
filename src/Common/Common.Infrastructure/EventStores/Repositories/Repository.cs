@@ -7,7 +7,7 @@ namespace Common.Infrastructure.EventStores.Repositories;
 
 public class Repository<TAggregate> : 
 IRepository<TAggregate> 
-where TAggregate : IAggregate
+where TAggregate : IAggregate<Guid>
 {
     private readonly IEventStore _eventStore;
     private readonly IEventBus _eventBus;

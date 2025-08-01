@@ -5,5 +5,5 @@ namespace Common.Domain.EventStores.Snapshots;
 public interface ISnapshot
 {
     Type Handles { get; }
-    void Handle(IAggregate aggregate);
+    void Handle(IAggregate<Guid> aggregate);
 }
