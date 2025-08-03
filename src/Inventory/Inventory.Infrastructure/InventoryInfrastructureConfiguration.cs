@@ -5,6 +5,7 @@ using Common.Infrastructure.MessageBrokers;
 using Common.Infrastructure.Persistence;
 using Common.Infrastructure.ServiceDiscovery.Consul;
 using Inventory.Domain.Contracts;
+using Inventory.Domain.Models;
 using Inventory.Domain.Models.Equipments;
 using Inventory.Infrastructure.Persistence;
 using Inventory.Infrastructure.Repositories;
@@ -25,6 +26,7 @@ public static class InventoryInfrastructureConfiguration
             .AddRepositories()
             .AddServiceDiscovery(configuration)
             .AddMessageBroker(configuration)
+            .AddOutbox(configuration, options => options.UseSqlServer(configuration.GetConnectionString(ConnectionStringKeys.OutboxConnection)))
             .AddEventStore<Equipment>(configuration, options => options.UseSqlServer(configuration.GetConnectionString("EventStoreConnection")))
             .AddTransient<IDbInitializer, InventoryDbInitializer>()
             .AddTransient<IEquipmentRepository, EquipmentRepository>();
@@ -40,7 +42,7 @@ public static class InventoryInfrastructureConfiguration
             .AddScoped<DbContext, InventoryDbContext>()
             .AddDbContext<InventoryDbContext>(options => options
                 .UseSqlServer(
-                    configuration.GetConnectionString("DefaultConnection"),
+                    configuration.GetConnectionString(ConnectionStringKeys.DefaultConnection),
                     sqlOptions => sqlOptions
                         .MigrationsHistoryTable("__EFMigrationsHistory", "inventory")
                         .EnableRetryOnFailure(

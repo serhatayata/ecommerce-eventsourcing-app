@@ -1,4 +1,3 @@
-using Common.Domain.Entities;
 using Common.Domain.EventStores.Aggregates;
 using Common.Domain.ValueObjects;
 

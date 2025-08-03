@@ -1,3 +1,4 @@
+using Inventory.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
@@ -16,7 +17,7 @@ public class InventoryDbContextFactory : IDesignTimeDbContextFactory<InventoryDb
             .Build();
 
         var builder = new DbContextOptionsBuilder<InventoryDbContext>();
-        var connectionString = configuration.GetConnectionString("DefaultConnection");
+        var connectionString = configuration.GetConnectionString(ConnectionStringKeys.DefaultConnection);
 
         builder.UseSqlServer(
             connectionString,

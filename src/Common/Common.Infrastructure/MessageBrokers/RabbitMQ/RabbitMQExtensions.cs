@@ -1,4 +1,5 @@
 using Common.Domain.MessageBrokers;
+using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,6 +14,21 @@ public static class RabbitMQExtensions
         var options = new RabbitMQOptions();
         Configuration.GetSection(nameof(MessageBrokersOptions)).Bind(options);
         services.Configure<RabbitMQOptions>(Configuration.GetSection(nameof(MessageBrokersOptions)));
+
+        // Add MassTransit with RabbitMQ configuration
+        services.AddMassTransit(x =>
+        {
+            x.UsingRabbitMq((context, cfg) =>
+            {
+                cfg.Host(options.Host, options.Port, options.VirtualHost, h =>
+                {
+                    h.Username(options.Username);
+                    h.Password(options.Password);
+                });
+
+                cfg.ConfigureEndpoints(context);
+            });
+        });
 
         services.AddSingleton<IEventListener, RabbitMQListener>();
 

@@ -7,20 +7,21 @@ using MassTransit;
 
 public class RabbitMQListener : IEventListener
 {
-    private readonly IPublishEndpoint _publishEndpoint;
+    private readonly IBus _bus;
 
-    public RabbitMQListener(IPublishEndpoint publishEndpoint)
+    public RabbitMQListener(IBus bus)
     {
-        _publishEndpoint = publishEndpoint;
+        _bus = bus;
     }
 
-    public async Task Publish<TEvent>(TEvent @event) where TEvent : IEvent
+    public async Task Publish<TEvent>(TEvent @event)
+    where TEvent : IEvent
     {
-        await _publishEndpoint.Publish(@event);
+        await _bus.Publish(@event);
     }
 
     public async Task Publish(string message, string type)
     {
-        await _publishEndpoint.Publish(new { Message = message, Type = type });
+        await _bus.Publish(new { Message = message, Type = type });
     }
 }

@@ -13,8 +13,8 @@ public static class InventoryModule
     IConfiguration configuration)
     {
         services
-        .AddInventoryApplication(configuration)
+        .AddInventoryDomain()
         .AddInventoryInfrastructure(configuration)
-        .AddInventoryDomain();
+        .AddInventoryApplication(configuration);
     }
 }
