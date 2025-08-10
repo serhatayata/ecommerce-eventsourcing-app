@@ -1,4 +1,5 @@
 using Common.Infrastructure.Extensions;
+using Common.Infrastructure.ServiceDiscovery.Consul;
 using Inventory.IoC;
 using Scalar.AspNetCore;
 
@@ -29,5 +30,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseConsul(app.Lifetime);
 
 app.Run();

@@ -27,7 +27,9 @@ public static class ConsulExtensions
         return services;
     }
 
-    public static IApplicationBuilder UseConsul(this IApplicationBuilder app, IHostApplicationLifetime lifetime)
+    public static IApplicationBuilder UseConsul(
+    this IApplicationBuilder app,
+    IHostApplicationLifetime lifetime)
     {
         // Retrieve Consul client from DI
         var consulClient = app.ApplicationServices
